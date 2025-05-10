@@ -465,7 +465,7 @@ namespace OKX.Net.Clients.UnifiedApi
         private SharedOrderStatus ParseOrderStatus(OrderStatus status)
         {
             if (status == OrderStatus.Live || status == OrderStatus.PartiallyFilled) return SharedOrderStatus.Open;
-            if (status == OrderStatus.Canceled) return SharedOrderStatus.Open;
+            if (status == OrderStatus.Canceled) return SharedOrderStatus.Canceled;
             return SharedOrderStatus.Filled;
         }
 

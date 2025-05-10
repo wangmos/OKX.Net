@@ -184,7 +184,9 @@ namespace OKX.Net.Clients.UnifiedApi
             var validationError = ((IFuturesOrderSocketClient)this).SubscribeFuturesOrderOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
-            var result = await Trading.SubscribeToOrderUpdatesAsync(Enums.InstrumentType.Futures, null, null,
+            var result = await Trading.SubscribeToOrderUpdatesAsync(request.TradingMode is TradingMode.PerpetualLinear or TradingMode.PerpetualInverse
+                ? Enums.InstrumentType.Swap
+                : InstrumentType.Futures, null, null,
                 update => handler(update.AsExchangeEvent<IEnumerable<SharedFuturesOrder>>(Exchange, new[] {
                     new SharedFuturesOrder(
                         update.Data.Symbol,
